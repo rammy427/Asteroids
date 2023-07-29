@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include "FrameTimer.h"
+#include "Ship.h"
 
 class Game
 {
@@ -20,4 +20,5 @@ private:
 	sf::RenderWindow& rw;
 	FrameTimer ft;
 	/* ---- Game Variables ---- */
+	Ship ship;
 };

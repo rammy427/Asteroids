@@ -2,7 +2,8 @@
 
 Game::Game(sf::RenderWindow& rw)
 	:
-	rw(rw)
+	rw(rw),
+	ship(sf::Vector2f(screenWidth, screenHeight) / 2.0f)
 {
 }
 
@@ -26,8 +27,10 @@ void Game::processEvents()
 void Game::updateModel()
 {
 	const float dt = ft.mark();
+	ship.update(dt);
 }
 
 void Game::composeFrame()
 {
+	ship.draw(rw);
 }
