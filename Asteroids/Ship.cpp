@@ -21,9 +21,10 @@ void Ship::update(float dt)
 {
 	// Rotate ship.
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		shape.rotate(-angularSpeed * dt);
+		angle -= angularSpeed * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		shape.rotate(angularSpeed * dt);
+		angle += angularSpeed * dt;
+	shape.setRotation(angle);
 
 	// Speed up or slow down ship.
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -32,9 +33,10 @@ void Ship::update(float dt)
 		speed = std::max(0.0f, speed - deceleration * dt);
 
 	// Calculate direction and move ship along it.
-	const float angle = RamMath::degToRad(shape.getRotation() - 90);
-	const sf::Vector2f direction = { std::cos(angle), std::sin(angle)};
-	shape.move(direction * speed * dt);
+	const float angleDiff = RamMath::degToRad(angle - 90);
+	const sf::Vector2f direction = { std::cos(angleDiff), std::sin(angleDiff)};
+	pos += direction * speed * dt;
+	shape.setPosition(pos);
 }
 
 void Ship::draw(sf::RenderWindow& rw)

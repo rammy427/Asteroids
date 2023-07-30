@@ -16,6 +16,7 @@ private:
 	static constexpr float deceleration = 50.0f;
 	static constexpr float angularSpeed = 270.0f;
 	float speed = 0.0f;
+	float angle = 0.0f;
 	sf::Vector2f pos;
 	sf::ConvexShape shape;
 };
