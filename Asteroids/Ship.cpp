@@ -32,7 +32,7 @@ void Ship::update(float dt)
 		speed = std::max(0.0f, speed - deceleration * dt);
 
 	// Calculate direction and move ship along it.
-	const float angle = RamMath::DegToRad(shape.getRotation() - 90);
+	const float angle = RamMath::degToRad(shape.getRotation() - 90);
 	const sf::Vector2f direction = { std::cos(angle), std::sin(angle)};
 	shape.move(direction * speed * dt);
 }

@@ -1,9 +1,10 @@
 #include "Game.h"
+#include "RamWindow.h"
 
 Game::Game(sf::RenderWindow& rw)
 	:
 	rw(rw),
-	ship(sf::Vector2f(screenWidth, screenHeight) / 2.0f)
+	ship(RamWindow::getCenter())
 {
 }
 

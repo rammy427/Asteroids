@@ -1,10 +1,11 @@
 #include "Game.h"
+#include "RamWindow.h"
 
 int main()
 {
     // Create window.
-    const int width = Game::screenWidth;
-    const int height = Game::screenHeight;
+    const int width = RamWindow::screenWidth;
+    const int height = RamWindow::screenHeight;
     sf::RenderWindow window(sf::VideoMode(width, height), "Asteroids");
 
     // Set framerate limit.

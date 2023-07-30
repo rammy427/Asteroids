@@ -1,10 +1,12 @@
 #pragma once
 
-namespace RamMath
+struct RamMath
 {
-	static constexpr float pi = 3.141593f;
-	float DegToRad(float deg)
+public:
+	static float degToRad(float deg)
 	{
 		return deg * pi / 180;
 	}
-}
+public:
+	static constexpr float pi = 3.141593f;
+};

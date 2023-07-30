@@ -13,9 +13,6 @@ private:
 	void updateModel();
 	void composeFrame();
 	/* ---- Game Functions ---- */
-public:
-	static constexpr int screenWidth = 800;
-	static constexpr int screenHeight = 600;
 private:
 	sf::RenderWindow& rw;
 	FrameTimer ft;
