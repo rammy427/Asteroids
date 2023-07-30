@@ -1,4 +1,5 @@
 #include "RamMath.h"
+#include "RamWindow.h"
 #include "Ship.h"
 
 Ship::Ship(const sf::Vector2f& pos)
@@ -32,10 +33,23 @@ void Ship::update(float dt)
 	else
 		speed = std::max(0.0f, speed - deceleration * dt);
 
-	// Calculate direction and move ship along it.
+	// Calculate direction and change position.
 	const float angleDiff = RamMath::degToRad(angle - 90);
 	const sf::Vector2f direction = { std::cos(angleDiff), std::sin(angleDiff)};
 	pos += direction * speed * dt;
+
+	// Wrap ship around screen.
+	if (pos.x < -width / 2)
+		pos.x = RamWindow::screenWidth + width / 2 - 1;
+	else if (pos.x >= RamWindow::screenWidth + width / 2)
+		pos.x = -width / 2;
+
+	if (pos.y < -height / 2)
+		pos.y = RamWindow::screenHeight + height / 2 - 1;
+	else if (pos.y >= RamWindow::screenHeight + height / 2)
+		pos.y = -height / 2;
+
+	// Set ship position accordingly.
 	shape.setPosition(pos);
 }
 
