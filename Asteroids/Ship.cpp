@@ -3,8 +3,6 @@
 #include "Ship.h"
 
 Ship::Ship(const sf::Vector2f& pos)
-	:
-	pos(pos)
 {
 	shape.setPointCount(4);
 
@@ -20,25 +18,46 @@ Ship::Ship(const sf::Vector2f& pos)
 
 void Ship::update(float dt)
 {
-	// Rotate ship.
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		angle -= angularSpeed * dt;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		angle += angularSpeed * dt;
-	shape.setRotation(angle);
+	rotate(dt);
+	accelerate(dt);
+	moveForward(dt);
+	wrapAroundScreen();
+}
 
-	// Speed up or slow down ship.
+void Ship::draw(sf::RenderWindow& rw)
+{
+	rw.draw(shape);
+}
+
+void Ship::rotate(float dt)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		shape.rotate(-angularSpeed * dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		shape.rotate(angularSpeed * dt);
+}
+
+void Ship::accelerate(float dt)
+{
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		speed = std::min(speed + acceleration * dt, maxSpeed);
 	else
 		speed = std::max(0.0f, speed - deceleration * dt);
+}
 
-	// Calculate direction and change position.
-	const float angleDiff = RamMath::degToRad(angle - 90);
-	const sf::Vector2f direction = { std::cos(angleDiff), std::sin(angleDiff)};
-	pos += direction * speed * dt;
+void Ship::moveForward(float dt)
+{
+	// Calculate direction.
+	const float angle = RamMath::degToRad(shape.getRotation() - 90);
+	const sf::Vector2f direction = { std::cos(angle), std::sin(angle) };
+	// Move ship.
+	shape.move(direction * speed * dt);
+}
 
-	// Wrap ship around screen.
+void Ship::wrapAroundScreen()
+{
+	sf::Vector2f pos = shape.getPosition();
+	
 	if (pos.x < -width / 2)
 		pos.x = RamWindow::screenWidth + width / 2 - 1;
 	else if (pos.x >= RamWindow::screenWidth + width / 2)
@@ -49,11 +68,5 @@ void Ship::update(float dt)
 	else if (pos.y >= RamWindow::screenHeight + height / 2)
 		pos.y = -height / 2;
 
-	// Set ship position accordingly.
 	shape.setPosition(pos);
-}
-
-void Ship::draw(sf::RenderWindow& rw)
-{
-	rw.draw(shape);
 }
