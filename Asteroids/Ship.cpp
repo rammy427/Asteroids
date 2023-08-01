@@ -29,6 +29,22 @@ void Ship::draw(sf::RenderWindow& rw)
 	rw.draw(shape);
 }
 
+float Ship::getRotation() const
+{
+	return shape.getRotation();
+}
+
+const sf::Vector2f Ship::getPosition() const
+{
+	return shape.getPosition();
+}
+
+const sf::Vector2f Ship::getDirection() const
+{
+	const float angle = RamMath::degToRad(getRotation() - 90);
+	return sf::Vector2f(std::cos(angle), std::sin(angle));
+}
+
 void Ship::rotate(float dt)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -47,11 +63,7 @@ void Ship::accelerate(float dt)
 
 void Ship::moveForward(float dt)
 {
-	// Calculate direction.
-	const float angle = RamMath::degToRad(shape.getRotation() - 90);
-	const sf::Vector2f direction = { std::cos(angle), std::sin(angle) };
-	// Move ship.
-	shape.move(direction * speed * dt);
+	shape.move(getDirection() * speed * dt);
 }
 
 void Ship::wrapAroundScreen()

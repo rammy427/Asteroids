@@ -8,6 +8,9 @@ public:
 	Ship(const sf::Vector2f& pos);
 	void update(float dt);
 	void draw(sf::RenderWindow& rw);
+	float getRotation() const;
+	const sf::Vector2f getPosition() const;
+	const sf::Vector2f getDirection() const;
 private:
 	void rotate(float dt);
 	void accelerate(float dt);
