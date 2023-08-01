@@ -12,6 +12,8 @@ int main()
     const int framerateLimit = 0;
     window.setFramerateLimit(framerateLimit);
 
+    window.setKeyRepeatEnabled(false);
+
     // Construct game with reference to the newly-created window.
     // Game will handle event processing and rendering.
     Game game(window);

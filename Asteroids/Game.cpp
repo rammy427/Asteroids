@@ -23,15 +23,23 @@ void Game::processEvents()
 	while (rw.pollEvent(ev))
 		if (ev.type == sf::Event::Closed)
 			rw.close();
+		else if (ev.type == sf::Event::KeyPressed)
+			if (ev.key.code == sf::Keyboard::Space)
+				bullets.emplace_back(ship);
 }
 
 void Game::updateModel()
 {
 	const float dt = ft.mark();
 	ship.update(dt);
+
+	for (Bullet& b : bullets)
+		b.update(dt);
 }
 
 void Game::composeFrame()
 {
 	ship.draw(rw);
+	for (Bullet& b : bullets)
+		b.draw(rw);
 }

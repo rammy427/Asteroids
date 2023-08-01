@@ -2,6 +2,8 @@
 
 #include "FrameTimer.h"
 #include "Ship.h"
+#include "Bullet.h"
+#include <vector>
 
 class Game
 {
@@ -18,4 +20,5 @@ private:
 	FrameTimer ft;
 	/* ---- Game Variables ---- */
 	Ship ship;
+	std::vector<Bullet> bullets;
 };
