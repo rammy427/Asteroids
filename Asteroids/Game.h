@@ -15,6 +15,7 @@ private:
 	void updateModel();
 	void composeFrame();
 	/* ---- Game Functions ---- */
+	void eraseLostBullets();
 private:
 	sf::RenderWindow& rw;
 	FrameTimer ft;

@@ -8,6 +8,7 @@ public:
 	Bullet(const Ship& ship);
 	void update(float dt);
 	void draw(sf::RenderWindow& rw);
+	const sf::FloatRect getRect() const;
 private:
 	static constexpr int width = 5;
 	static constexpr int height = 8;

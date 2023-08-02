@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "RamWindow.h"
+#include <algorithm>
 
 Game::Game(sf::RenderWindow& rw)
 	:
@@ -35,6 +36,7 @@ void Game::updateModel()
 
 	for (Bullet& b : bullets)
 		b.update(dt);
+	eraseLostBullets();
 }
 
 void Game::composeFrame()
@@ -42,4 +44,11 @@ void Game::composeFrame()
 	ship.draw(rw);
 	for (Bullet& b : bullets)
 		b.draw(rw);
+}
+
+void Game::eraseLostBullets()
+{
+	const auto pred = [](Bullet& b) { return !b.getRect().intersects(RamWindow::getRect()); };
+	const auto newEnd = std::remove_if(bullets.begin(), bullets.end(), pred);
+	bullets.erase(newEnd, bullets.end());
 }

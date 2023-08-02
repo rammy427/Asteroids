@@ -20,3 +20,8 @@ void Bullet::draw(sf::RenderWindow& rw)
 {
 	rw.draw(rect);
 }
+
+const sf::FloatRect Bullet::getRect() const
+{
+	return rect.getGlobalBounds();
+}
