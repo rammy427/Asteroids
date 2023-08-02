@@ -4,16 +4,22 @@
 
 Ship::Ship(const sf::Vector2f& pos)
 {
+	// Set ship vertices.
 	shape.setPointCount(4);
-
 	shape.setPoint(0, { 0, height });
 	shape.setPoint(1, { width / 2,0 });
 	shape.setPoint(2, { width, height });
 	shape.setPoint(3, { width / 2,height * 3 / 4 });
 
+	// Set position.
 	const sf::Vector2f center = sf::Vector2f(width, height) / 2.0f;
 	shape.setOrigin(center);
 	shape.setPosition(pos);
+
+	// Set outline and color.
+	shape.setFillColor(fillColor);
+	shape.setOutlineColor(outlineColor);
+	shape.setOutlineThickness(-outlineThickness);
 }
 
 void Ship::update(float dt)

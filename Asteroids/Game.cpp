@@ -41,9 +41,9 @@ void Game::updateModel()
 
 void Game::composeFrame()
 {
-	ship.draw(rw);
 	for (Bullet& b : bullets)
 		b.draw(rw);
+	ship.draw(rw);
 }
 
 void Game::eraseLostBullets()

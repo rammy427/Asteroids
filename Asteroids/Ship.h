@@ -19,10 +19,13 @@ private:
 private:
 	static constexpr int width = 32;
 	static constexpr int height = 32;
+	static constexpr int outlineThickness = 1;
 	static constexpr float maxSpeed = 250.0f;
 	static constexpr float acceleration = 200.0f;
 	static constexpr float deceleration = 50.0f;
 	static constexpr float angularSpeed = 270.0f;
+	const sf::Color fillColor = sf::Color::Black;
+	const sf::Color outlineColor = sf::Color::White;
 	float speed = 0.0f;
 	sf::ConvexShape shape;
 };
