@@ -13,6 +13,6 @@ private:
 private:
 	static constexpr float speed = 30.0f;
 	sf::Vector2f direction;
-	sf::Texture t;
+	std::shared_ptr<sf::Texture> pTex;
 	sf::Sprite sprite;
 };

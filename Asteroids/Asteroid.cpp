@@ -1,25 +1,24 @@
 #include "Asteroid.h"
 #include "RamMath.h"
 #include "RamWindow.h"
+#include "TextureManager.h"
 #include <random>
 
 Asteroid::Asteroid()
 {
-	if (t.loadFromFile("Sprites/asteroid.png"))
-	{
-		sprite.setTexture(t);
-		sprite.setOrigin(sf::Vector2f(t.getSize() / 2u));
+	pTex = TextureManager::acquire("Sprites/asteroid.png");
+	sprite.setTexture(*pTex);
+	sprite.setOrigin(sf::Vector2f(pTex->getSize() / 2u));
 
-		// Generate random position.
-		std::mt19937 rng(std::random_device{}());
-		std::uniform_real_distribution<float> xDist(0, RamWindow::screenWidth);
-		std::uniform_real_distribution<float> yDist(0, RamWindow::screenHeight);
-		sprite.setPosition(sf::Vector2f(xDist(rng), yDist(rng)));
-		
-		// Generate random direction.
-		std::uniform_real_distribution<float> dirDist(-1.0f, 1.0f);
-		direction = RamMath::getNormalized({ dirDist(rng), dirDist(rng) });
-	}
+	// Generate random position.
+	std::mt19937 rng(std::random_device{}());
+	std::uniform_real_distribution<float> xDist(0, RamWindow::screenWidth);
+	std::uniform_real_distribution<float> yDist(0, RamWindow::screenHeight);
+	sprite.setPosition(sf::Vector2f(xDist(rng), yDist(rng)));
+	
+	// Generate random direction.
+	std::uniform_real_distribution<float> dirDist(-1.0f, 1.0f);
+	direction = RamMath::getNormalized({ dirDist(rng), dirDist(rng) });
 }
 
 void Asteroid::update(float dt)
@@ -36,8 +35,8 @@ void Asteroid::draw(sf::RenderWindow& rw)
 void Asteroid::wrapAroundScreen()
 {
 	sf::Vector2f pos = sprite.getPosition();
-	const float width = float(t.getSize().x);
-	const float height = float(t.getSize().y);
+	const float width = float(pTex->getSize().x);
+	const float height = float(pTex->getSize().y);
 
 	if (pos.x < -width / 2)
 		pos.x = RamWindow::screenWidth + width / 2 - 1;
