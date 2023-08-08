@@ -17,6 +17,7 @@ private:
 	void composeFrame();
 	/* ---- Game Functions ---- */
 	void eraseLostBullets();
+	void doBulletAsteroidColl();
 private:
 	sf::RenderWindow& rw;
 	FrameTimer ft;
