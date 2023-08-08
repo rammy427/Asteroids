@@ -32,6 +32,11 @@ void Asteroid::draw(sf::RenderWindow& rw)
 	rw.draw(sprite);
 }
 
+const sf::FloatRect Asteroid::getRect() const
+{
+	return sprite.getGlobalBounds();
+}
+
 void Asteroid::wrapAroundScreen()
 {
 	sf::Vector2f pos = sprite.getPosition();

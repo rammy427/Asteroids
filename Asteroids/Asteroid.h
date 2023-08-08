@@ -8,6 +8,7 @@ public:
 	Asteroid();
 	void update(float dt);
 	void draw(sf::RenderWindow& rw);
+	const sf::FloatRect getRect() const;
 private:
 	void wrapAroundScreen();
 private:
