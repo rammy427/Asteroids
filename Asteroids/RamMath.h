@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 struct RamMath
 {
@@ -20,6 +20,12 @@ public:
 	static sf::Vector2f getNormalized(const sf::Vector2f& v)
 	{
 		return v / getLength(v);
+	}
+	static sf::FloatRect getExpanded(const sf::FloatRect& src, float padding)
+	{
+		const sf::Vector2f topLeft(src.left + padding, src.top + padding);
+		const sf::Vector2f size = src.getSize() - sf::Vector2f(padding, padding);
+		return sf::FloatRect(topLeft, size);
 	}
 public:
 	static constexpr float pi = 3.141593f;

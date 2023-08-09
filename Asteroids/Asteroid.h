@@ -12,7 +12,7 @@ public:
 private:
 	void wrapAroundScreen();
 private:
-	static constexpr float speed = 30.0f;
+	float speed;
 	sf::Vector2f direction;
 	std::shared_ptr<sf::Texture> pTex;
 	sf::Sprite sprite;

@@ -25,4 +25,6 @@ private:
 	Ship ship;
 	std::vector<Bullet> bullets;
 	std::vector<Asteroid> asteroids;
+	static constexpr float asteroidSpawnTime = 2.0f;
+	float elapsedTime = 0.0f;
 };

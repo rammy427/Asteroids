@@ -10,15 +10,32 @@ Asteroid::Asteroid()
 	sprite.setTexture(*pTex);
 	sprite.setOrigin(sf::Vector2f(pTex->getSize() / 2u));
 
-	// Generate random position.
 	std::mt19937 rng(std::random_device{}());
+
+	// Generate random position with bounding rectangle.
+	const float padding = 10.0f;
+	const sf::FloatRect boundingRect = RamMath::getExpanded(RamWindow::getRect(), padding);
 	std::uniform_real_distribution<float> xDist(0, RamWindow::screenWidth);
 	std::uniform_real_distribution<float> yDist(0, RamWindow::screenHeight);
-	sprite.setPosition(sf::Vector2f(xDist(rng), yDist(rng)));
+	sf::Vector2f pos;
+	do
+	{
+		pos = { xDist(rng), yDist(rng) };
+	}
+	while (boundingRect.contains(pos));
+	sprite.setPosition(pos);
 	
 	// Generate random direction.
 	std::uniform_real_distribution<float> dirDist(-1.0f, 1.0f);
 	direction = RamMath::getNormalized({ dirDist(rng), dirDist(rng) });
+
+	// Generate random speed.
+	std::uniform_real_distribution<float> speedDist(10.0f, 100.0f);
+	speed = speedDist(rng);
+
+	// Generate random rotation.
+	std::uniform_real_distribution<float> angleDist(0.0f, 360.0f);
+	sprite.rotate(angleDist(rng));
 }
 
 void Asteroid::update(float dt)

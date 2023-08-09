@@ -8,8 +8,6 @@ Game::Game(sf::RenderWindow& rw)
 	rw(rw),
 	ship(RamWindow::getCenter())
 {
-	for (int n = 0; n < 10; n++)
-		asteroids.emplace_back();
 }
 
 void Game::run()
@@ -37,6 +35,14 @@ void Game::updateModel()
 	const float dt = ft.mark();
 	TextureManager::clean();
 
+	// Spawn asteroid every 2 seconds.
+	elapsedTime += dt;
+	if (elapsedTime >= asteroidSpawnTime)
+	{
+		asteroids.emplace_back();
+		elapsedTime = 0.0f;
+	}
+
 	ship.update(dt);
 
 	for (Bullet& b : bullets)
@@ -45,8 +51,8 @@ void Game::updateModel()
 	for (Asteroid& a : asteroids)
 		a.update(dt);
 
-	doBulletAsteroidColl();
 	eraseLostBullets();
+	doBulletAsteroidColl();
 }
 
 void Game::composeFrame()
@@ -71,7 +77,7 @@ void Game::doBulletAsteroidColl()
 {
 	for (auto i = asteroids.begin(); i != asteroids.end();)
 	{
-		bool collisionHappened = false;
+ 		bool collisionHappened = false;
 		for (auto j = bullets.begin(); j != bullets.end();)
 		{
 			if (i->getRect().intersects(j->getRect()))
