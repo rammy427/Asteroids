@@ -82,15 +82,19 @@ void Game::doBulletAsteroidColl()
 		{
 			if (i->getRect().intersects(j->getRect()))
 			{
-				// Set iterators to next elements.
-				i = asteroids.erase(i);
+				// Set bullet iterator to next element after deletion.
 				j = bullets.erase(j);
 				collisionHappened = true;
 			}
-			else // Check next bullet normally.
+			else
+				// Check next bullet normally.
 				j++;
 		}
-		if (!collisionHappened) // Check next asteroid normally.
+		if (collisionHappened)
+			// Set asteroid iterator to next element after deletion.
+			i = asteroids.erase(i);
+		else
+			// Check next asteroid normally.
 			i++;
 	}
 }
