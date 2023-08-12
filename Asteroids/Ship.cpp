@@ -51,6 +51,11 @@ const sf::Vector2f Ship::getDirection() const
 	return sf::Vector2f(std::cos(angle), std::sin(angle));
 }
 
+const sf::FloatRect Ship::getRect() const
+{
+	return shape.getGlobalBounds();
+}
+
 void Ship::rotate(float dt)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))

@@ -11,6 +11,7 @@ public:
 	float getRotation() const;
 	const sf::Vector2f getPosition() const;
 	const sf::Vector2f getDirection() const;
+	const sf::FloatRect getRect() const;
 private:
 	void rotate(float dt);
 	void accelerate(float dt);
