@@ -18,6 +18,7 @@ private:
 	/* ---- Game Functions ---- */
 	void eraseLostBullets();
 	void doBulletAsteroidColl();
+	void doPlayerAsteroidColl();
 private:
 	sf::RenderWindow& rw;
 	FrameTimer ft;
@@ -27,4 +28,5 @@ private:
 	std::vector<Asteroid> asteroids;
 	static constexpr float asteroidSpawnTime = 5.0f;
 	float elapsedTime = 0.0f;
+	bool gameIsOver = false;
 };

@@ -2,6 +2,7 @@
 #include "RamWindow.h"
 #include "TextureManager.h"
 #include <algorithm>
+#include <iostream>
 
 Game::Game(sf::RenderWindow& rw)
 	:
@@ -26,7 +27,7 @@ void Game::processEvents()
 		if (ev.type == sf::Event::Closed)
 			rw.close();
 		else if (ev.type == sf::Event::KeyPressed)
-			if (ev.key.code == sf::Keyboard::Space)
+			if (!gameIsOver && ev.key.code == sf::Keyboard::Space)
 				bullets.emplace_back(ship);
 }
 
@@ -35,24 +36,28 @@ void Game::updateModel()
 	const float dt = ft.mark();
 	TextureManager::clean();
 
-	// Spawn asteroid every 2 seconds.
-	elapsedTime += dt;
-	if (elapsedTime >= asteroidSpawnTime)
+	if (!gameIsOver)
 	{
-		asteroids.emplace_back();
-		elapsedTime = 0.0f;
-	}
+		// Spawn asteroid every 2 seconds.
+		elapsedTime += dt;
+		if (elapsedTime >= asteroidSpawnTime)
+		{
+			asteroids.emplace_back();
+			elapsedTime = 0.0f;
+		}
 
-	ship.update(dt);
+		ship.update(dt);
+
+		eraseLostBullets();
+		doBulletAsteroidColl();
+		doPlayerAsteroidColl();
+	}
 
 	for (Bullet& b : bullets)
 		b.update(dt);
 
 	for (Asteroid& a : asteroids)
 		a.update(dt);
-
-	eraseLostBullets();
-	doBulletAsteroidColl();
 }
 
 void Game::composeFrame()
@@ -63,7 +68,8 @@ void Game::composeFrame()
 	for (Asteroid& a : asteroids)
 		a.draw(rw);
 
-	ship.draw(rw);
+	if (!gameIsOver)
+		ship.draw(rw);
 }
 
 void Game::eraseLostBullets()
@@ -97,4 +103,11 @@ void Game::doBulletAsteroidColl()
 			// Check next asteroid normally.
 			i++;
 	}
+}
+
+void Game::doPlayerAsteroidColl()
+{
+	const auto pred = [&](const Asteroid& a) {return a.getRect().intersects(ship.getRect()); };
+	if (std::any_of(asteroids.begin(), asteroids.end(), pred))
+		gameIsOver = true;
 }
