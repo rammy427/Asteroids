@@ -3,12 +3,19 @@
 #include "TextureManager.h"
 #include <algorithm>
 #include <iostream>
+#include <string>
 
 Game::Game(sf::RenderWindow& rw)
 	:
 	rw(rw),
 	ship(RamWindow::getCenter())
 {
+	// Set up font and text.
+	font.loadFromFile("Fonts/consola.ttf");
+
+	const sf::FloatRect rect = text.getLocalBounds();
+	text.setOrigin(rect.getSize() / 2.0f);
+	text.setPosition(RamWindow::getCenter());
 }
 
 void Game::run()
@@ -70,6 +77,8 @@ void Game::composeFrame()
 
 	if (!gameIsOver)
 		ship.draw(rw);
+	else
+		rw.draw(text);
 }
 
 void Game::eraseLostBullets()

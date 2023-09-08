@@ -29,4 +29,6 @@ private:
 	static constexpr float asteroidSpawnTime = 5.0f;
 	float elapsedTime = 0.0f;
 	bool gameIsOver = false;
+	sf::Font font;
+	sf::Text text = { "GAME OVER", font, 80 };
 };
