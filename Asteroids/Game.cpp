@@ -90,6 +90,7 @@ void Game::eraseLostBullets()
 
 void Game::doBulletAsteroidColl()
 {
+	std::vector<Asteroid> children;
 	for (auto i = asteroids.begin(); i != asteroids.end();)
 	{
  		bool collisionHappened = false;
@@ -106,12 +107,26 @@ void Game::doBulletAsteroidColl()
 				j++;
 		}
 		if (collisionHappened)
-			// Set asteroid iterator to next element after deletion.
+		{
+			// Get information of the shot asteroid.
+			const sf::Vector2f newPos = i->getPos();
+			const int newLevel = i->getLevel() - 1;
+
+			// Add 4 new asteroids with decreased level.
+			if (newLevel >= 0)
+				for (int n = 0; n < 4; n++)
+					children.emplace_back(false, newPos, newLevel);
+
+			// Delete shot asteroid and set asteroid iterator to next element after deletion.
 			i = asteroids.erase(i);
+		}
 		else
 			// Check next asteroid normally.
 			i++;
 	}
+
+	if (!children.empty())
+		std::move(children.begin(), children.end(), std::back_inserter(asteroids));
 }
 
 void Game::doPlayerAsteroidColl()
