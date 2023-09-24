@@ -4,7 +4,7 @@
 #include "TextureManager.h"
 #include <random>
 
-Asteroid::Asteroid()
+Asteroid::Asteroid(bool randomized, const sf::Vector2f& inPos, int in_level)
 {
 	pTex = TextureManager::acquire("Sprites/asteroid.png");
 	sprite.setTexture(*pTex);
@@ -12,18 +12,35 @@ Asteroid::Asteroid()
 
 	std::mt19937 rng(std::random_device{}());
 
-	// Generate random position with bounding rectangle.
-	const float padding = 10.0f;
-	const sf::FloatRect boundingRect = RamMath::getExpanded(RamWindow::getRect(), padding);
-	std::uniform_real_distribution<float> xDist(0, RamWindow::screenWidth);
-	std::uniform_real_distribution<float> yDist(0, RamWindow::screenHeight);
-	sf::Vector2f pos;
-	do
+	// Set asteroid position.
+	if (randomized)
 	{
-		pos = { xDist(rng), yDist(rng) };
+		// Generate random position with bounding rectangle.
+		const float padding = 10.0f;
+		const sf::FloatRect boundingRect = RamMath::getExpanded(RamWindow::getRect(), padding);
+		std::uniform_real_distribution<float> xDist(0, RamWindow::screenWidth);
+		std::uniform_real_distribution<float> yDist(0, RamWindow::screenHeight);
+		sf::Vector2f pos;
+		do
+		{
+			pos = { xDist(rng), yDist(rng) };
+		} while (boundingRect.contains(pos));
+		sprite.setPosition(pos);
 	}
-	while (boundingRect.contains(pos));
-	sprite.setPosition(pos);
+	else
+		sprite.setPosition(inPos);
+	
+	// Set asteroid level and scale.
+	if (randomized)
+	{
+		std::uniform_int_distribution<int> lDist(0, 2);
+		level = lDist(rng);
+	}
+	else
+		level = in_level;
+
+	float scale = scaleFactor * (level + 1);
+	sprite.setScale(scale, scale);
 	
 	// Generate random direction.
 	std::uniform_real_distribution<float> dirDist(-1.0f, 1.0f);
@@ -52,6 +69,16 @@ void Asteroid::draw(sf::RenderWindow& rw)
 const sf::FloatRect Asteroid::getRect() const
 {
 	return sprite.getGlobalBounds();
+}
+
+sf::Vector2f Asteroid::getPos() const
+{
+	return sprite.getPosition();
+}
+
+int Asteroid::getLevel() const
+{
+	return level;
 }
 
 void Asteroid::wrapAroundScreen()
