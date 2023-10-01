@@ -1,13 +1,14 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <SFML/Graphics.hpp>
 
-struct RamMath
+namespace RamMath
 {
-public:
 	static float degToRad(float deg)
 	{
-		return deg * pi / 180;
+		return deg * float(M_PI) / 180;
 	}
 	static float getLengthSq(const sf::Vector2f& v)
 	{
@@ -15,7 +16,7 @@ public:
 	}
 	static float getLength(const sf::Vector2f& v)
 	{
-		return std::sqrt(getLengthSq(v));
+		return sqrt(getLengthSq(v));
 	}
 	static sf::Vector2f getNormalized(const sf::Vector2f& v)
 	{
@@ -27,6 +28,4 @@ public:
 		const sf::Vector2f size = src.getSize() - sf::Vector2f(padding, padding);
 		return sf::FloatRect(topLeft, size);
 	}
-public:
-	static constexpr float pi = 3.141593f;
-};
+}
